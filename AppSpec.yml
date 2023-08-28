@@ -1,12 +1,21 @@
 version: 0.0
-Resources:
-  - myLambdaFunction:
-      Type: AWS::Lambda::Function
-      Properties:
-        Name: "git-lambda"
-        Alias: "LambdaFunctionAlias"
-        CurrentVersion: "1"
-        TargetVersion: "2"
-Hooks:
-  - BeforeAllowTraffic: "LambdaFunctionToValidateBeforeTrafficShift"
-  - AfterAllowTraffic: "LambdaFunctionToValidateAfterTrafficShift"
+os: linux
+files:
+  - source: /
+    destination: /var/www/html
+hooks:
+ ApplicationStop:
+ DownloadBundle:
+ BeforeInstall:
+   - location: scripts/before_install.sh
+     timeout: 300
+     runas: root
+ Install:
+  AfterInstall:
+    - location: scripts/after_install.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: scripts/application_start.sh
+      timeout: 300
+      runas: root
