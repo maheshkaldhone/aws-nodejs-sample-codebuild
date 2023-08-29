@@ -3,7 +3,7 @@ Resources:
   - myLambdaFunction:
       Type: AWS::Lambda::Function
       Properties:
-        Name: "git-lambda"
+        Name: "myfun"
         Alias: "LambdaFunctionAlias"
         CurrentVersion: "1"
         TargetVersion: "2"
